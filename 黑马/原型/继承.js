@@ -10,7 +10,7 @@
      console.log(x+y);
  }
 //  fn()
-// (1)   call(可以调用函数)  fn.call()
+// (1)   call(可以调用函数)  fn.call()1
 
 let o = {
     name:'andy'
