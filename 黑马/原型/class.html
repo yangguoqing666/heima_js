@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // class Psesron {
+        //     // constructor会在创建实例的时候执行 并且返回实例
+        //     constructor(x, y) {
+        //         this.x = x;
+        //         this.y = y;
+        //     }
+        //     sum() {
+        //         console.log(this.x + this.y)
+        //     }
+        // }
+        // class Son extends Psesron {
+        //     constructor(x, y) {
+        //         super(x, y); //调用父类中的构造函数
+        //     }
+        // }
+        // let son = new Son(1, 2);
+        // son.sum();
+        // let person = new Psesron();
+        // class Father{
+        //     say(){
+        //        return '我是爸爸'
+        //     }
+        // }
+        // class Son extends Father{
+        //     say(){
+        //         console.log(super.say(),'的儿子');
+        //     }
+        // };
+        // let son = new Son();
+        // son.say();
+        // class Father {
+        //     constructor(x, y) {
+        //         this.x = x;
+        //         this.y = y;
+        //     }
+        //     sum() {
+        //         console.log(this.x + this.y);
+        //     }
+        // }
+        // class Son extends Father {
+        //     constructor(x, y) {
+        //         super(x, y);//必须在子类this之前调用!
+        //         this.x = x;
+        //         this.y = y;
+        //     }
+        //     sub() {
+        //         console.log(this.x - this.y);
+        //     }
+        // }
+        // let son = new Son();
+        let that;
+        class Father{
+            constructor(name){
+                // construcoor里面的this指向实例
+                that = this;
+                this.name = name;
+                this.btn.onclick = this.sing;
+                console.log(this,'1')
+            }
+            sing(){
+              //sing里面的this指向的是btn   按照函数是编程
+              //谁调用了方法this就指向了谁
+              //在sing里面可以使用 that代替this因为that被存起来了
+              
+            }
+            dance(){
+                //this指向了a  a.dance()
+            }
+        }
+
+        let a = new Father('ldh')
+        console.log(that===a);
+
+
+
+
+        //类的本质 就是es5的构造函数
+        class Animal{
+
+        }
+        console.log(typeof Animal); //function
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
