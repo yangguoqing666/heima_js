@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 递归有退出条件return
+        // 利用递归求阶乘
+        function getSum(num){
+            if(num==1){
+                return 1;
+            }
+            return num*getSum(num-1)
+        }
+        console.log(getSum(3));
+
+        function fb(n){
+            if(n==1 || n==2){
+                return 1;
+            }
+            return fb(n-1) + fb(n-2);
+        }
+
+        let data= [{
+            id:1,
+            name:'家电',
+            goods:[{
+                id:11,
+                name:'电视机'
+            }]
+        },
+    
+       {
+           id:2,
+           name:'水果'
+       }
+    ]
+    function  getG(data,id) {
+        data.forEach(value=>{
+            if(value.id==id){
+                console.log(value);
+            }else if(value.goods&&value.goods.length>0){
+               getG(item.goods,id)
+            }
+        })
+    }
+    </script>
+</body>
+</html>
