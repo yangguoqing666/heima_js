@@ -27,3 +27,35 @@ function binds(){
     console.log(this);
 }
 let f = binds.bind(o,1,2)
+
+
+//箭头函数中的this指向函数定义位置中的this
+
+let jiantou = {
+    age:20,
+    say:()=>{
+        alert(this.age)   //this指向window   对象没有作用域  无法产生指向作用域
+    }
+}
+
+//剩余参数
+
+const sumss = (...args) =>{
+   let total = 0;
+   args.forEach(item=>total+=item)
+   return total;
+}
+sumss(10,20,30);
+
+let [s1,...s2] =  [1,2,3,4];
+
+//扩展运算符  将数组或对象转化为用逗号分隔的参数序列
+
+let ary = [1,2,3];
+console.log(...ary);
+
+//扩展运算符 合并数组  合并对象
+ary1.push(...ary2)
+
+//includes
+

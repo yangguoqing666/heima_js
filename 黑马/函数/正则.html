@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //正则表达式
+        let regexp = new RegExp(/1234/);
+        console.log(regexp);
+        //字面量创建
+        let rg = /123/;
+        //检测 test();
+        console.log(rg.test('abc123'));
+        //^开始  $结束符号   边界符
+        let rgs = /^abc$/;
+        console.log(rgs.test('1234'));
+        //字符类 []  只要包含a或者b或者x都返回true
+        let rg1 = /[abc]/; //  /^[abc]$/  三选一
+        console.log(rg1.test('aaa'));
+        let rg2 = /^[a-z]$/ //26字母中有任何一个都返回true -表示范围
+        //字符组合
+        let rg3 = /^[a-zA-Z0-9_-]$/  //大写和小写都可以数字也行 仍然是多选一
+        let rg4 = /^[^a-zA-Z0-9_-]$/  // 如果中括号里面有^表示取反的意思
+        //量词符号
+        //*相当于>=0可以出现0次或者很多次  +出现1次或者很多次
+        //? 相当于 1||0  *  +  ?
+        let rg5 = /^a*$/;
+    </script>
+</body>
+</html>
