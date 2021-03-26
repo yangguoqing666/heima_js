@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge, chrome=1">
+    <title>debounce</title>
+    <style>
+        #container {
+            width: 100%;
+            height: 200px;
+            line-height: 200px;
+            text-align: center;
+            color: #fff;
+            background-color: #444;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <div id="click">
+        点击
+    </div>
+    <script src="debounce.js"></script>
+    <script>
+        var aQuery = function (selector, context) {
+            this.selector = selector;
+            console.log(arguments.length)
+            return new aQuery.prototype.init();
+        }
+        aQuery.prototype = {
+            init: function () {
+
+                return this;
+            },
+            name: function () {
+                return this.age
+            },
+            age: 20
+        }
+
+        aQuery.prototype.init.prototype = aQuery.prototype;
+
+        console.log(aQuery().name()) //20
+
+        //jquery的调用方式是$().ready()  $().balabala...
+        //要这样实现 那么jquery就要看成是一个雷 那么$()应该返回实例
+        //所以要改造代码return new aJuqery();但是这样会死循环
+
+        //怎样才能正确的返回一个实例
+        //在js中实例中的this只和原型有关系？===？是的实例的方法是原型上面的方法,所以调用实例例如a.say()相当于调用了原型上面的方法,也就是说如果把实例当做this，那么this就等于实例的构造函数的prototype
+        //所以我们在原型中创建方法返回原型中的this及是构造函数的this
+        //new aJuqery().prototype.init()
+
+        //但是问题来了init的this指向了qjuery类,如果把init函数也当做一个构造器，那么内部的this要如何处理呢
+        //分割作用域
+        //new aJuqery.prototype.init() 通过这种方式每次创建新的Init实例,来分割this,但是这样无法访问jquery原型上的属性和方法
+
+        //怎么访问jQuery类原型上的属性与方法？
+        // 做到既能隔离作用域还能使用jQuery原型对象的作用域呢，
+        //还能在返回实例中访问jQuery的原型对象?
+
+        function getIndex(arr, item) {
+            if (Array.prototype.indexOf) {
+                return arr.indexOf(item)
+            } else {
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i] === item) {
+                        return i
+                    }
+                }
+            }
+            return -1;
+        }
+
+        function getIdex2(arr, item) {
+            return arr.findIndex((data, index) => {
+                return data === item;
+            })
+        }
+        let index = getIdex2([1, 2, 3], 3)
+        console.log(index, '1111111')
+        //2末尾添加元素 不改变原数组
+        function addIndex(arr, item) {
+            let newarr = [];
+            arr.map((data) => {
+                newarr.push(data)
+            })
+            newarr.push(item)
+            return newarr;
+        }
+
+        //直接数组拼接
+        // let newarr = arr.concat([item])
+        //使用浅拷贝slice
+        function addIndex3(arr, item) {
+            let newarr = arr.slice(0);
+            newarr.push(item);
+            return newarr;
+        }
+        //使用es6新特性扩展运算符....直接就可以
+        // let newarr = [...arr, item];
+        console.log(addIndex([1, 2, 3], 4))
+        //3 移除数组中的元素 返回原数组 不能创建newarr [1,2,2,2,3]==>[1,3]
+        function deleteIndex(arr, item) {
+            for (let i = 0; i < arr.length; i++) {
+                if (arr[i] === item) {
+                    arr.splice(i, 1)
+                }
+            }
+            return arr;
+        }
+        //3不修改原数组
+        function deleteIndex2(arr, item) {
+            return arr.filter((data, index) => {
+                return data !== item;
+            })
+        }
+        //5数组求和 
+        function sumIndex(arr) {
+            let sum = 0;
+            arr.forEach(element => {
+                sum += element;
+
+            });
+            return sum;
+        }
+        //reduce
+        function sumIndex2(arr) {
+            arr.reduce((pre, cur) => {
+                console.log(pre)
+                return pre + cur;
+            }, 0)
+        }
+        sumIndex2([1, 2, 3, 4, 5, 6, 7, 8])
+        //函数的上下文  apply call咱可以这么理解 不用想太多 就是还是在fn中 只不过this是obj就想这一点就行了
+        function speak(fn, obj) {
+            return fn.apply(obj)
+        }
+        //数组扁平化
+        function flas(arr) {
+            return arr.flat();
+        }
+        //@2使用reduce
+        function arrbp(arr) {
+            return arr.reduce((pre, cur) => {
+                return pre.concat(cur)
+            }, [])
+        }
+        //借助es6扩展运算符.
+        let newas = [].concat(...[1, 2, 3, [4, 5, 6]])
+
+        console.log(arrbp([1, 2, [3, 4]]))
+        //先简单去个重
+        function unqu(arr) {
+            if (!Array.isArray(arr)) {
+                return;
+            }
+            let newarr = [];
+            arr.forEach(item => {
+                if (newarr.indexOf(item) == -1) {
+                    newarr.push(item)
+                }
+            })
+            return newarr;
+        }
+        function unqu(arr) {
+            return arr.filter((item, index) => {
+                return arr.indexOf(item) === index;
+            })
+        }
+        //求数组的最大值
+        //  Math.max.apply(null,arr)
+        //Class的基本语法
+        //类的由来
+        function Point(x, y) {
+            this.x = x;
+            this.y = y;
+        }
+        Point.prototype.toString = function () {
+            return this.x + this.y;
+        }
+        console.log(Point.prototype, '1111111111')
+        //用Class改写为
+        class Points {
+            //构造方法
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+            toString() {
+                return this.x + this.y;
+            }
+            //改方法不会被继承而是通过类来直接调用
+            //静态方法含有this则this指向类而不是实例
+            static toVaaaa() {
+
+            }
+        }
+        const ps = new Points(1, 2)
+        //class extends继承
+        class ColorPoint extends Points {
+            constructor(x, y, color) {
+                //super这里表示父类的构造函数 用来新建父类的this对象 关于super只要知道
+                //子类必须在constructor方法中调用super方法，否则新建实例时会报错
+                super(x, y)//调用父类的constructor(x,y)
+                //子类继承父类的属性:需要使用super()继续父类的属性，同时创建this(子类本身没有this);
+                this.color = color;
+            }
+            toString() {
+                return this.color + ' ' + super.toString(); // 调用父类的toString()
+            }
+        }
+        //ps.constructor = Points.prototype.constructor;
+        //类的方法都定义在prototype对象上面，随意类的新方法可以添加在prototype上面
+        Object.assign(Point.prototype, {
+            toString() { },
+            toValue() { }
+        })
+        //类的方法都是不可枚举的
+        Object.keys(Points.prototype) //[]
+        Object.getOwnPropertyNames(Points.prototype)//['constructor',toString]
+        //在es5中是可以枚举的 
+        Object.keys(Point.prototype)//['constructor',toString]
+        //constructor方法是类的默认方法 通过new命令生成对象实例时候,自动调动该方法
+        //construcoor默认返回实例对象即是this 也可以指定返回另一个对象
+        //return Object.create(null)
+        var buz = {
+            fog: 'stack'
+        };
+        //for in只会遍历自生可枚举的属性
+        for (var name in buz) {
+            //hasOwnProperty顾名思义
+            if (buz.hasOwnProperty(name)) {
+                console.log('this is fog (' +
+                    name + ') for sure. Value: ' + buz[name]);
+            }
+            else {
+                console.log(name); // toString or something else
+            }
+        }
+        // constructor方法在这里实质就是构造方法，通过new生成实例会自动调用，如果类型没有定义constructor则会默认添加
+        class Widget {
+            foo(baz) {
+                console.log(this, 'this是')
+                // bar.call(this, baz);
+            }
+
+            //类的方法内部如果含有this，它默认指向类的实例
+        }
+        let xixi = new Widget();
+        console.log(xixi.foo())
+
+    //chonchon
+    function unquuu(arr){
+       let newarr=[];
+       for(let i=0;i<arr.length;i++){
+           if(newarr.indexOf(arr[i])===-1){
+               newarr.pus(arr[i])
+           }
+           return newarr;
+       }
+    }
+    
+
+    </script>
+</body>
+
+</html>

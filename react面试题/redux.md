@@ -234,8 +234,23 @@ componentWillReciveProps(){}调用时机
 函数组件与hooks
 
 HMR 看webpack视频
+什么是jsx
 
+react hooks原理
 
+context优点和缺点
+
+mvc  mvvm
+React Fiber 的目标是提高其在动画、布局、手势、暂停、中止或重用等方面的适用性，并为不同类型的更新分配优先级，以及新的并发原语
+
+React.memo():这可以防止不必要地重新渲染函数组件
+PureComponent:这可以防止不必要地重新渲染类组件
+
+什么是纯函数？
+
+防抖和节流
+
+react youhua
 
 
 

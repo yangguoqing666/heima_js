@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>首页<%= websiteName %></h1>
+    <!-- <strong>Age:</strong><%= data.age%> -->
+    <h2>个人介绍</h2>
+    <ul>
+        <!-- 逻辑处理不需要等号 -->
+        <% data.forEach(item=>{%>
+            <li><%= item.age%></li>
+            <li><%= item.name%></li>
+        <%})%>
+    </ul>
+</body>
+
+</html>
